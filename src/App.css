@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+form {
+  max-width: 400px;
+  margin: 100px auto;
+}
+
+.btn {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.weather {
+  margin: 20px;
+}
+
+.header {
+  text-align: center;
+}
+.location {
+  text-align: center;
+  background: #00000008;
+}
