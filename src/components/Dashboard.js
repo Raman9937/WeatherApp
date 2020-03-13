@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
 const Dashboard = props => {
   let url = "http://api.openweathermap.org/data/2.5/weather";
@@ -10,6 +11,8 @@ const Dashboard = props => {
   });
 
   const [weather, setWeather] = useState({});
+
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     console.log("Dashboard componentDidmount");
@@ -31,7 +34,7 @@ const Dashboard = props => {
   return (
     <div className="weather">
       <p className="header">
-        Hey <small>{localStorage.username}</small>
+        Hey <small>{user.name}</small>
       </p>
 
       {Object.keys(weather).length === 0 ? null : (

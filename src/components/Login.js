@@ -1,5 +1,7 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+
+import { AuthContext } from "./AuthContext";
 
 const Login = props => {
   let userData = {
@@ -7,28 +9,21 @@ const Login = props => {
     password: ""
   };
   const [data, handelChange] = useState(userData);
-
-  const [auth, setAuth] = useState(false);
+  const { user, isAuth, login } = useContext(AuthContext);
+  console.log(user, isAuth);
 
   useEffect(() => {
-    console.log("Login");
-    if (auth === true) {
+    console.log("auth changed");
+    if (isAuth === true) {
       console.log("true");
       props.history.push("/");
     }
-  }, [auth, props.history]);
+  }, [isAuth]);
 
   const handelSubmit = e => {
-    const { email, password } = data;
     e.preventDefault();
-    let username = localStorage.getItem("username");
-    let password2 = localStorage.getItem("password");
-    if (username === email && password === password2) {
-      localStorage.setItem("isAuth", true);
-      setAuth(true);
-    } else {
-      alert("Invalid credentials");
-    }
+    console.log("clicked");
+    login(data);
   };
 
   const handelInputChange = e => {

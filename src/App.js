@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext, useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -7,35 +7,26 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
+import { AuthContext } from "./components/AuthContext";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isAuth: false
-    };
-  }
+const App = () => {
+  const { setCurrentUser, isAuth } = useContext(AuthContext);
+  console.log("APP", isAuth);
 
-  componentDidMount() {
-    if (localStorage.isAuth) {
-      this.setState({
-        isAuth: true
-      });
+  useEffect(() => {
+    //check for isAuth
+    if (localStorage.user) {
+      setCurrentUser(JSON.parse(localStorage.getItem("user")));
     }
-  }
-  render() {
-    return (
-      <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <PrivateRoute
-          exact
-          path="/"
-          component={Dashboard}
-          isAuth={this.state.isAuth}
-        />
-      </Switch>
-    );
-  }
-}
+  }, []);
+
+  return (
+    <Switch>
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/register" component={Register} />
+      <PrivateRoute path="/" isAuth={isAuth} component={Dashboard} />
+    </Switch>
+  );
+};
+
 export default App;

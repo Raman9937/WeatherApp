@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { AuthContext } from "./AuthContext";
 
 class Register extends Component {
   constructor(props) {
@@ -9,9 +10,12 @@ class Register extends Component {
       name: ""
     };
   }
+  static contextType = AuthContext;
 
   componentDidMount() {
+    console.log("Register");
     if (localStorage.isAuth) {
+      console.log("auth true");
       this.props.history.push("/");
     }
   }
@@ -25,14 +29,24 @@ class Register extends Component {
 
   handelSubmit = e => {
     e.preventDefault();
+    const { registerUser } = this.context;
     const { email, password, name } = this.state;
-    localStorage.setItem("username", email);
-    localStorage.setItem("password", password);
+    let user = {
+      email,
+      password,
+      name
+    };
+    registerUser(user);
     this.props.history.push("/login");
+
+    // localStorage.setItem("username", email);
+    // localStorage.setItem("password", password);
   };
 
   render() {
     const { email, password, name } = this.state;
+    console.log("context object", this.context);
+
     return (
       <Fragment>
         <form onSubmit={this.handelSubmit}>
